@@ -113,7 +113,7 @@ input {
     const url = $(this).attr('href'); 
 
     const SwalLoading = Swal.fire({
-        title: "Generando Receta!",
+        title: "Generando Presupuesto!",
         timerProgressBar: true,
         allowOutsideClick: false,
         didOpen: () => {
@@ -132,7 +132,7 @@ input {
             SwalLoading.close(); 
             Swal.fire({
                 title: "Error",
-                text: "No se pudo generar la receta. Intenta de nuevo.",
+                text: "No se pudo generar el Presupuesto. Intenta de nuevo.",
                 icon: "error"
             });
         }

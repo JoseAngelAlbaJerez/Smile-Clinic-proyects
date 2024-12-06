@@ -39,7 +39,9 @@
                 </div>
                 
                 <div class="form-group mt-2">
-                    <input type="submit" class="form-control btn " name="submit" value="Crear ">
+                <center>
+                    <input type="submit" style="width: 250px;" class="form-control btn " name="submit" value="Crear Egreso">
+                    </center>
                 </div>
     </form>
 </div>

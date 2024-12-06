@@ -13,7 +13,7 @@ class Budget_HeaderController extends Controller
             $patientId = $request->input('patient_id');
             $typeofpay = $request->input('type');
             $Total = $request->input('total');
-            $initial =$request->input('initial_payment');
+         
             if ($typeofpay == "Credito") {
                 $cxc = CXC::where('patient_id', $patientId)->first();
         
@@ -29,7 +29,7 @@ class Budget_HeaderController extends Controller
             $budgetHeader->patient_id = $patientId;
             $budgetHeader->c_x_c_id = $cxcId;
             $budgetHeader->type = $typeofpay;
-            $budgetHeader->initial_payment = $initial;
+          
             $budgetHeader->Total = $Total;
             
             $budgetHeader->save();
@@ -46,11 +46,11 @@ class Budget_HeaderController extends Controller
     try {
             $typeofpay = $request->input('type');
             $total = $request->input('total');
-            $initial =$request->input('initial_payment');
+          
             $budgetHeader = Budget_Header::findOrFail($id);
             $budgetHeader->type = $typeofpay;
             $budgetHeader->total = $total;
-            $budgetHeader->initial_payment = $initial;
+          
             $budgetHeader->save();
         
             return response()->json(['message' => 'Encabezado guardado exitosamente.', 'budget_header_id' => $budgetHeader->id], 200);

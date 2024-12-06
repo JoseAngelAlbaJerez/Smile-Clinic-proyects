@@ -236,7 +236,7 @@
                 <th>Informacion del Paciente</th>
                 <th></th>
                 
-                <th>Inicial</th>
+                <th></th>
                 <th>Balance Restante</th>
                 <th>Total</th>
             </tr>
@@ -259,7 +259,7 @@
                 </td>
 
                 <td>
-                {{ number_format($CXC->initial_payment, 2) }} $
+             
                 </td>
                 <td>
                 {{number_format($CXC->balance)}} $</td> 

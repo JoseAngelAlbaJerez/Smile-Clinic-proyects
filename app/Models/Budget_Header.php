@@ -16,7 +16,7 @@ class Budget_Header extends Model
         'type',
         'Total',
         'budget_detail_id',
-        'initial_payment'
+        
         
 
     ];
@@ -29,6 +29,7 @@ class Budget_Header extends Model
 {
     return $this->belongsTo(Cxc::class, 'c_x_c_id', 'id');
 } 
+
 public function budgetDetails()
 {
     return $this->hasMany(Budget::class, 'budget_header_id');

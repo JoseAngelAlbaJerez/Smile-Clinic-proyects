@@ -212,7 +212,7 @@ let recentAbonosIds = [];
 function calcTotal() {
     const table = document.getElementById("budgetsTable");
     
-    // Inicializar total en 0
+  
     total = 0;
 
     // Iterar sobre cada fila de la tabla, excepto la primera (encabezado)

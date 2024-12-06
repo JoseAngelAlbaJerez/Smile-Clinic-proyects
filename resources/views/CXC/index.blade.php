@@ -63,6 +63,7 @@ input {
                       
                         <th scope="col">Total</th>
                         <th scope="col">Abonos pagos</th>
+                        <th scope="col"width="150">Presupuestos</th>
                         <th scope="col" width="200">Acciones</th>
                     </tr>
                 </thead>
@@ -88,6 +89,17 @@ input {
                        
                         <td><b>{{ number_format($CXC->total, 2);}} $</b></td>
                         <td><b>{{ $CXC->abonos_count }}</b></td>
+                        <td>
+                            @if($CXC->budgets)
+                            @foreach($CXC->budgets as $budget)
+                            <div><b>{{ $budget->id }} - Total: {{ number_format($budget->Total, 2) }} $</b></div>
+                            @endforeach
+                            @else
+                            <span>No hay presupuestos</span>
+                            @endif
+                        </td>
+
+                      
 
                         <td>
                             <div class="form-inline justify-content-center">

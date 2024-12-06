@@ -36,10 +36,7 @@
 
 }
 
-#initial_payment {
-    width: 14%;
 
-}
 
 #emission_date {
     width: 14%;
@@ -87,10 +84,7 @@
 
 
                 </select>
-                <h5 class="ml-2" id="initial_payment_label">Inicial: </h5>
-
-                <input disabled type="number" class="form-control ml-2" name="initial_payment" id="initial_payment"
-                    value="{{round($budget->initial_payment)}}">
+            
 
 
                 <h5 class="mt-2 ml-2"><b>Paciente : {{ $paciente->name}}</b></h5>
@@ -119,7 +113,7 @@
                 </thead>
                 <tbody>
                     @foreach ($budget_detalle as $budget_detalles)
-                    <tr class="db">
+                    <tr class="db" data-id="{{$budget_detalles->id}}">
                         <th scope="row" class="budget-id">{{$budget_detalles->id}}</th>
                         <td contenteditable>{{$budget_detalles->procedure}}</td>
                         <td contenteditable>{{$budget_detalles->treatment}}</td>
@@ -239,21 +233,71 @@ $(document).ready(function() {
         }
     });
 
-    $('#tabla tbody').on('click', '.eliminar', function(e) {
-        e.preventDefault();
-        table.row($(this).closest('tr')).remove().draw();
+    $(document).on('click', '.eliminar', function(e) {
+    e.preventDefault();
+    
+    const row = $(this).closest('tr');
+    const budgetId = row.data('id');
 
-        calcTotal();
-    });
+    if (!budgetId) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo obtener el ID del presupuesto.',
+        });
+        return;
+    }
 
-    $(document).ready(function() {
-        // Verificar el valor de #type al cargar la página
-        if ($('#type').val() === "Contado") {
-            $('#initial_payment').prop('disabled', true);
-        } else {
-            $('#initial_payment').prop('disabled', false);
+   
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás deshacer esta acción.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '{{ route("delete.budgets") }}',
+                method: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    ids: [budgetId] 
+                },
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eliminado',
+                        text: response.mensaje,
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+
+                 
+                    row.remove();
+                    calcTotal();
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al eliminar el presupuesto. Inténtalo de nuevo.',
+                    });
+                    console.error(xhr.responseText);
+                }
+            });
         }
     });
+});
+
+
+
+
+
+
     $('table').on('input', 'td[contenteditable]', function() {
         var $row = $(this).closest('tr');
         var cantidad = parseFloat($row.find('td:eq(2)').text()) || 0; // Asegura cantidad como número
@@ -277,19 +321,12 @@ $(document).ready(function() {
             let SaveTableData = getTableSaveData();
             let patientId = $('#patient-info').data('id');
             let type = $('#type').val();
-            let initial_payment = parseFloat($("#initial_payment").val()) || 0;
+          
             let saved_total = parseFloat($("#tdTotal").text()) || 0;
-            let balance = parseFloat(saved_total - initial_payment).toFixed(2);
+            let balance = parseFloat(saved_total).toFixed(2);
             let status = "pendiente";
 
-            if (initial_payment > saved_total) {
-                swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "El pago inicial no puede ser mayor al Balance",
-                });
-                return;
-            }
+         
 
             // Guardar los datos de la CXC primero
             let cxcid = {{ $budget -> c_x_c_id ?? 0 }};
@@ -301,7 +338,7 @@ $(document).ready(function() {
 
                     balance: balance,
                     status: status,
-                    initial_payment: initial_payment,
+                   
                     total: saved_total
                 },
                 //Luego Actualizar el header del budget
@@ -312,7 +349,7 @@ $(document).ready(function() {
                         data: {
                             _token: '{{ csrf_token() }}',
                             type: type,
-                            initial_payment: initial_payment,
+                           
                             total: saved_total
                         },
 
@@ -354,6 +391,7 @@ $(document).ready(function() {
                                     error,
                                     status,
                             });
+                            return false;
                         }
                             
                     });
@@ -366,7 +404,7 @@ $(document).ready(function() {
                                     datos: tableData,
                                     patient_id: patientId,
                                     type: type,
-                                    initial_payment: initial_payment,
+                                   
                                     budget_header_id: budgetHeaderId
                                 },
                                 success: function(response) {
@@ -397,6 +435,7 @@ $(document).ready(function() {
                                         error,
                                         status,
                                     });
+                                    return false;
                                 }
                             });
 
@@ -409,6 +448,7 @@ $(document).ready(function() {
                                     (xhr.responseJSON?.error || xhr
                                         .statusText),
                             });
+                            return false;
                         }
 
                     });
@@ -422,6 +462,7 @@ $(document).ready(function() {
                         text: 'Hubo un error al guardar los datos de la Cuenta . ' +
                             xhr.responseJSON.error,
                     });
+                    return false;
                 }
             });
 
@@ -477,6 +518,7 @@ $(document).ready(function() {
                                     error,
                                     status,
                             });
+                            return false;
                         }
                             
                     });
@@ -515,6 +557,7 @@ $(document).ready(function() {
                                     (xhr.responseJSON?.error || xhr
                                         .statusText),
                             });
+                            return false;
                         }
                     });
                 },
@@ -525,6 +568,7 @@ $(document).ready(function() {
                         text: 'Hubo un error al guardar el encabezado. ' + (xhr
                             .responseJSON?.error || xhr.statusText),
                     });
+                    return false;
                 }
             });
         }

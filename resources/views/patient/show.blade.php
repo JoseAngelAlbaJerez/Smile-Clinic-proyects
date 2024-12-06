@@ -109,6 +109,19 @@ h1 {
                 <div class="col-md-6">
                     <span><b>Número de Contacto : </b>{{$patient->phone}}</span>
                 </div>
+                <div class="col-md-6">
+                    <span><b>Complicaciones: </b>{{$patient->complication_detail  }}</span>
+                </div>
+                <div class="col-md-6">
+                    <span><b>Alergias : </b>{{$patient->alergies_detail ? '' : 'no tiene alergias' }}</span>
+                </div>
+                <div class="col-md-6">
+                    <span><b>Medicado con : </b>{{$patient->drugs_detail  }}</span>
+                </div>
+                <div class="col-md-6">
+                    <span><b>Motivo de Consulta: </b>{{$patient->motive}}</span>
+                </div>
+               
             </div>
         </div>
 

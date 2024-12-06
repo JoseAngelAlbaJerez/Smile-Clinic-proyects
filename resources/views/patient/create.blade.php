@@ -230,7 +230,9 @@ $currentDate = date('Y-m-d');
                     <textarea class="form-control" id="motivo_consulta" name="motivo_consulta" required></textarea>
                 </div>
                 <div class="form-group mt-2">
-                    <input type="submit" class="form-control btn " name="submit" value="Crear Paciente">
+                <center>
+                    <input type="submit" style="width: 250px;" class="form-control btn " name="submit" value="Crear Paciente">
+                    </center>
                 </div>
     </form>
 </div>

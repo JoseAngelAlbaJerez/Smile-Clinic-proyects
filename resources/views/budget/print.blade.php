@@ -233,10 +233,7 @@
             <tr>
                 <th>Información del Paciente</th>
                 <th></th>
-                <th>@isset($budget->cxc)
-                        <div>Inicial </div>
-                    @endisset
-                    </th>
+                
                 <th>@isset($budget->cxc)
                         <div>Balance Restante </div>
                     @endisset</th>
@@ -254,10 +251,7 @@
                 </td>
                 <td></td>
 
-                <td>@isset($budget->cxc)
-                        <div>{{ number_format($budget->initial_payment, 2) }} $</div>
-                    @endisset
-                </td>
+               
                 
                 <td>
                     @isset($budget->cxc)

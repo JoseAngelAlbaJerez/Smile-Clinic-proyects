@@ -39,10 +39,7 @@ th{
 
 }
 
-#initial_payment {
-    width: 14%;
 
-}
 
 
 #img-odonto{
@@ -72,7 +69,7 @@ th{
                     <option value="Credito">Credito</option>
                 </select>
 
-            <h5 class="mt-2 ml-2">Buscar Procedimiento: </h5> <select class="form-control ml-2 " style="width: 400px;" type="text"
+            <h5 class="mt-2 ml-2">Buscar Procedimiento: </h5> <select class=" form-control ml-2 " style="width: 600px;" type="text"
                 name="nombre_procedimiento">
                 <option id="prod">Procedimientos...</option>
                 <option value="Protesis" data-cantidad="1" data-monto="500">Protesis</option>
@@ -94,10 +91,7 @@ th{
 
 
 
-                <h5 class="ml-2" id="initial_payment_label">Inicial: </h5>
-                <input disabled type="number" class="form-control ml-2" name="initial_payment" id="initial_payment">
-
-          
+           
           
 
             </div>
@@ -272,25 +266,6 @@ $(document).ready(function() {
 
 
 
-    $(document).ready(function() {
-
-        $('#type').on('change', function() {
-            if ($(this).val() === "Credito") {
-                $('#initial_payment').prop('disabled', false);
-              
-
-             
-
-
-
-            } else {
-                $('#initial_payment').prop('disabled', true);
-            
-
-            }
-        });
-    });
-
 
 
 
@@ -322,21 +297,15 @@ $('table').on('input', ' td[contenteditable]', function() {
             let patientId = $('#patient-info').data('id');
             let type = $('#type').val();
             
-            let initial_payment = parseFloat($("#initial_payment").val()) || 0;
+         
             let saved_total = parseFloat($("#tdTotal").text()) || 0;
            
-            let balance = parseFloat(saved_total - initial_payment).toFixed(2);
+            let balance = parseFloat(saved_total ).toFixed(2);
+
+            
             let status = "pendiente";
 
-            if (initial_payment > saved_total) {
-                swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "El pago inicial no puede ser mayor al Balance",
-                });
-                return;
-            }
-
+         
          
 
             // Guardar los datos de la CXC primero
@@ -349,7 +318,7 @@ $('table').on('input', ' td[contenteditable]', function() {
                         balance: balance,
                         status: status,
                        
-                        initial_payment: initial_payment,
+                        
                         total: saved_total
     },
                 success: function(response) {
@@ -359,9 +328,9 @@ $('table').on('input', ' td[contenteditable]', function() {
                         data: {
                             _token: '{{ csrf_token() }}',
                             patient_id: patientId,
-                            initial_payment: initial_payment,
+                            
                             type: type,
-                            total: saved_total
+                            total: balance
                         },
                         success: function(headerResponse) {
                             let budgetHeaderId = headerResponse.budget_header_id; 
@@ -374,7 +343,8 @@ $('table').on('input', ' td[contenteditable]', function() {
                             datos: tableData,
                             patient_id: patientId,
                             type: type,
-                            budget_header_id: budgetHeaderId
+                            budget_header_id: budgetHeaderId,
+                           
                         },
                         success: function(response) {
                             let patientId = response.patient_id;
@@ -400,6 +370,7 @@ $('table').on('input', ' td[contenteditable]', function() {
                                     error,
                                     status,
                             });
+                            return false;
                         }
                     });
                         
@@ -409,6 +380,7 @@ $('table').on('input', ' td[contenteditable]', function() {
                             title: "Oops...",
                             text: 'Hubo un error al guardar el encabezado. ' + (xhr.responseJSON?.error || xhr.statusText),
                         });
+                        return false;
                     }
 
                     });
@@ -422,6 +394,7 @@ $('table').on('input', ' td[contenteditable]', function() {
                         text: 'Hubo un error al guardar los datos de la Cuenta . ' +
                             xhr.responseJSON.error,
                     });
+                    return false;
                 }
             });
 
@@ -474,6 +447,7 @@ $('table').on('input', ' td[contenteditable]', function() {
                     title: "Oops...",
                     text: 'Hubo un error al guardar los detalles. ' + (xhr.responseJSON?.error || xhr.statusText),
                 });
+                return false;
             }
         });
     },
@@ -483,6 +457,7 @@ $('table').on('input', ' td[contenteditable]', function() {
             title: "Oops...",
             text: 'Hubo un error al guardar el encabezado. ' + (xhr.responseJSON?.error || xhr.statusText),
         });
+        return false;
     }
 });
 }
@@ -499,9 +474,9 @@ $('table').on('input', ' td[contenteditable]', function() {
         let discount = $(this).find('td:eq(4)').text().trim().replace('%', '');
         let total = $(this).find('td:eq(5)').text().trim();
         
-        let initial_payment = parseFloat($("#initial_payment").val()) || 0;
      
-        let balance = parseFloat(total - initial_payment).toFixed(2);
+     
+        let balance = parseFloat(total).toFixed(2);
         
         
         if (procedure && quantity && amount && coberture && discount && total) {

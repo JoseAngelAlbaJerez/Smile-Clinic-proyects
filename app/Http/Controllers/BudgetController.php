@@ -17,6 +17,7 @@ class BudgetController extends Controller
     $patientId = $request->input('patient_id');
     $typeofpay = $request->input('type');
     $budgetHeaderId = $request->input('budget_header_id'); 
+  
     $budgets = []; 
     
     if ($typeofpay == "Credito") {
@@ -29,11 +30,14 @@ class BudgetController extends Controller
     } else {
         $cxcId = null;
     }
+    $firstBudget = true;
+
+    
     foreach ($datos as $dato) {
         if (empty($dato['procedure']) || empty($typeofpay)) {
             return response()->json(['error' => 'El presupuesto no puede estar vacío.'], 400);
         }
-
+      
         $budget = new Budget();
         $budget->procedure = $dato['procedure'];
         $budget->treatment = $dato['treatment'];
@@ -47,7 +51,9 @@ class BudgetController extends Controller
         $budget->c_x_c_id = $cxcId;
         $budget->budget_header_id = $budgetHeaderId;
         $budget->save();
-        $budgets[] = $budget; // Almacena el presupuesto en el array
+        $budgets[] = $budget; 
+
+
     }
 
     return response()->json(['message' => 'Presupuestos guardados exitosamente.', 'budgets' => $budgets, 'patient_id' => $patientId]);
@@ -194,7 +200,7 @@ public function delete($id){
                 $CXCS = CXC::find($cxcId);
 
                 if ($CXCS) {
-                    $CXCS->balance = ($CXCS->balance + $budgetHeader->initial_payment) - $budgetHeader->Total;
+                    $CXCS->balance = ($CXCS->balance) - $budgetHeader->Total;
                     $CXCS->total -= $budgetHeader->Total;
                     $CXCS->save();
                 } else {

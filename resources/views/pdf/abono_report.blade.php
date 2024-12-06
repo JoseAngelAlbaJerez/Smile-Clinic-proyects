@@ -232,7 +232,7 @@
                 <th></th>
                 <th></th>
                 
-                <th>Inicial</th>
+                <th></th>
                 <th>Balance Restante</th>
 
             </tr>
@@ -261,7 +261,6 @@
                 </td>
                 <td>
                   
-                    {{ number_format($CXC->initial_payment, 2) }} $ 
                 </td>
                 <td class="large total">
 

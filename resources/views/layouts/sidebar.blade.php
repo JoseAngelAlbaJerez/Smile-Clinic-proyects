@@ -106,6 +106,12 @@
                 <span class="fa-stack fa-lg"><i class="fa fa-palette fa-stack-1x"></i></span> Temas
             </a>
         </li>
+         <!-- Sección de Roles -->
+         <li>
+            <a href="{{route('user.index')}}" class="{{ Request::routeIs('user.index') ? 'active' : '' }}">
+                <span class="fa-stack fa-lg"><i class="fa fa-user fa-stack-1x"></i></span> Roles y Usuarios
+            </a>
+        </li>
     </ul>
 </div>
 

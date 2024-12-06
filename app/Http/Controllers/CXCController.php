@@ -13,7 +13,7 @@ class CXCController extends Controller
     public function index()
 {
 
-    $CXCS = CXC::with('patient','abonos')->get();
+    $CXCS = CXC::with('patient', 'abonos', 'budgets')->get();
     
  
     foreach ($CXCS as $CXC) {
@@ -97,7 +97,7 @@ public function store(Request $request)
         'balance' => 'required|numeric',
         'status' => 'required|string',
        
-        'initial_payment' => 'required|numeric',
+    
         'total' => 'required|numeric',
     ]);
 
@@ -108,7 +108,7 @@ public function store(Request $request)
             $cxc->balance += $request->balance;  
             $cxc->status = $request->status;
             
-            $cxc->initial_payment = $request->initial_payment;
+          
             $cxc->total += $request->total;  
             $cxc->save();
         } else {
@@ -185,7 +185,7 @@ public function actualizarCxc($patientId)
                 'balance' => 'required',
                 'status' => 'required',
                 'total' => 'nullable|numeric',
-                'initial_payment'=> 'nullable|numeric',
+               
             ]);
           
           

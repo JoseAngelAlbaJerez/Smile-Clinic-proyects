@@ -44,7 +44,7 @@
 
 
 <div class="col-md-8 ml-5" id='contenedor'>
-    <form method="post" action="{{ route('events.store') }}" class="form">
+    <form method="post" action="{{ route('RX.store') }}" class="form">
         @csrf
         <!-- CSRF protection -->
         <div class="card text-white ">
@@ -82,8 +82,10 @@
                 </div>
             
 
-                <div class="form-group mt-2">
-                    <input type="submit" class="form-control btn " name="submit" value="Crear Medicamento">
+                <div class="form-group mt-2 ">
+                    <center>
+                    <input type="submit" style="width: 250px;" class="form-control btn " name="submit" value="Crear Medicamento">
+                    </center>
                 </div>
     </form>
 </div>

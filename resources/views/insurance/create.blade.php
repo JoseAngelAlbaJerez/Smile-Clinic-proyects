@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     <div class="form-inline mt-2">
                         <button id="clear-button" class="btn text-white mr-2 form-control">Limpiar Firma</button>
-                        <input type="submit" class="form-control btn " name="submit" value="Crear Cita">
+                        <input type="submit" class="form-control btn " name="submit" value="Crear Seguro">
                     </div>
                 </div>
     </form>

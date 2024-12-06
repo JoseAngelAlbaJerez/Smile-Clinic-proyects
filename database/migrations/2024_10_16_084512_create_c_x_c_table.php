@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('status', ['pendiente', 'pagado', 'vencido'])->default('pendiente');
             
             $table->decimal('total', 20, 6)->nullable();
-            $table->decimal('initial_payment', 20, 6)->nullable();
+        
             $table->timestamps();
         });
     }

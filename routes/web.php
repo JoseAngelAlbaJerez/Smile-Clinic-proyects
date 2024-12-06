@@ -5,8 +5,11 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CXCController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RXController;
+use App\Http\Controllers\User_RoleController;
 use App\Models\Budget_Header;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OdontographController;
@@ -96,6 +99,22 @@ Route::middleware(['auth'])->group(function () {
     //Seguro Medico
     Route::get('/insurance/create', [InsuranceController::class,'create'])->name('insurance.create');
 
+    //User 
+    Route::get('/user/index',[User_RoleController::class,'index'])->name('user.index');
+
+    //Module
+    Route::get('/module/load',[ModuleController::class,'load'])->name('module.load');
+    Route::get('/module/get',[ModuleController::class,'GetModules'])->name('GetModules');
+    Route::post('/module/store',[ModuleController::class,'store'])->name('module.store');
+    Route::delete('/module/delete/{id}', [ModuleController::class,'delete'])->name('module.delete');
+
+    //Profile
+    Route::get('/profile/load',[ProfileController::class,'load'])->name('profile.load');
+    Route::post('/profile/GetModulesByProfile', [ProfileController::class, 'GetModulesByProfile'])->name('profile.GetModulesByProfile');
+    Route::post('/profile/store',[ProfileController::class,'store'])->name('profile.store');
+    Route::delete('/profile/delete/{id}', [ProfileController::class,'delete'])->name('profile.delete');
+    Route::post('/storeprofile_modules',[ProfileController::class,'storeprofile_modules'])->name('storeprofile_modules');
+  
     //Reports
 
     //Report View

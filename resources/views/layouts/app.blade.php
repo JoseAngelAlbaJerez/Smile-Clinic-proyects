@@ -150,7 +150,7 @@
     .nav-link,
     .dropdown-item {
 
-        color: var(--background) !important;
+        color: var(--txt) !important;
 
     }
 
